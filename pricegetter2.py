@@ -5,7 +5,7 @@ postcodes = ["E13", "E14", "E15", "E16", "E17", "E20", "EC1", "EC2", "EC3", "EC4
 class Task():
     def __init__(self):
         self.driver = webdriver.Firefox()
-        self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(3)
         self.base_url = "http://www.home.co.uk/guides/sold_house_prices.htm?location=e10&month=01&year=2002"
 
     def ave_price(self):
