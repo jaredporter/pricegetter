@@ -10,8 +10,8 @@ class Task():
 
     def ave_price(self):
         driver = self.driver
-        price_list = open("Prices.txt", "w")
         for i in postcodes:
+            price_list = open("Prices.txt", "w")
             driver.get(self.base_url % i)
             price = driver.find_element_by_css_selector(".homeco_pr_content > div:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2)")
             num_sold = driver.find_element_by_css_selector(".homeco_pr_content > div:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2)")
@@ -24,7 +24,7 @@ class Task():
                 num_sold = driver.find_element_by_css_selector(".homeco_pr_content > div:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2)")
                 limit = driver.find_element_by_css_selector(".homeco_pr_content > h2:nth-child(3)")
             price_list.write("\n\n")
-        price_list.close()
+            price_list.close()
 
 t = Task()
 t.ave_price()
