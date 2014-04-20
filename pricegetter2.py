@@ -10,21 +10,27 @@ class Task():
 
     def ave_price(self):
         driver = self.driver
-        for i in postcodes:
-            price_list = open("Prices.txt", "w")
-            driver.get(self.base_url % i)
-            price = driver.find_element_by_css_selector(".homeco_pr_content > div:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2)")
-            num_sold = driver.find_element_by_css_selector(".homeco_pr_content > div:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2)")
-            limit = driver.find_element_by_css_selector(".homeco_pr_content > h2:nth-child(3)")
-            while limit.text != "Summary of Properties Sold in %s in January 2014" % i:
-                price_list.write(price.text.replace(u"\xa3", "") + ",")
-                price_list.write(num_sold.text + "\n")
-                driver.find_element_by_css_selector(".homeco_pr_content > div:nth-child(19) > form:nth-child(1) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > a:nth-child(1)").click()
+        with open("prices.txt") as price_list:
+            for i in postcodes:
+                driver.get(self.base_url % i)
                 price = driver.find_element_by_css_selector(".homeco_pr_content > div:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2)")
                 num_sold = driver.find_element_by_css_selector(".homeco_pr_content > div:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2)")
                 limit = driver.find_element_by_css_selector(".homeco_pr_content > h2:nth-child(3)")
-            price_list.write("\n\n")
-            price_list.close()
+                while limit.text != "Summary of Properties Sold in %s in January 2014" % i:
+                    price_list.write(price.text.replace(u"\xa3", "") + " ,")
+                    price_list.write(num_sold.text + "\n")
+                    to_next_page()
+                    price = driver.find_element_by_css_selector(".homeco_pr_content > div:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2)")
+                    num_sold = driver.find_element_by_css_selector(".homeco_pr_content > div:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2)")
+                    limit = driver.find_element_by_css_selector(".homeco_pr_content > h2:nth-child(3)")
+                price_list.write("\n\n")
+                price.flush()
+                postcodes.remove(i)
+
+    def to_next_page(self):
+        driver = self.driver
+        driver.find_element_by_css_selector(".homeco_pr_content > div:nth-child(19) > form:nth-child(1) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > a:nth-child(1)").click()
 
 t = Task()
 t.ave_price()
+
