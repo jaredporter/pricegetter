@@ -13,7 +13,8 @@ class Task():
         postcodes.remove(i)
         open("postcode.txt", "w").close()
         with open("postcode.txt", "w") as codes:
-            codes.write(postcodes)
+            for x in postcodes:
+                codes.write(i + "\n")
 
     def to_next_page(self):
         driver = self.driver
@@ -36,8 +37,7 @@ class Task():
                     limit = driver.find_element_by_css_selector(".homeco_pr_content > h2:nth-child(3)")
                 price_list.write("\n\n")
                 price.flush()
-                postcodes.remove(i)
-                open.("postcode.txt", "w").close
+                self.update_postcodes()
 
 
 
